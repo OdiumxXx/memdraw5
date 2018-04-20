@@ -1,0 +1,4 @@
+0.2
+- Removed borders from members draw
+- Replaced JTextfields with JSpinners (Arrows/mouse control at a distance)
+- Increased font size 
