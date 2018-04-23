@@ -39,7 +39,7 @@ public class CSVReader {
           line = br.readLine();
         }
       }
-      // String Array list has been created, and had the inital title bars removed.
+      // String Array list has been created, and had the initial title bars removed.
 
       // Create the clubMember Arraylist to be populated
       ArrayList<clubMember> clubMemberList = new ArrayList<>();
@@ -61,25 +61,39 @@ public class CSVReader {
 
       // Sort the new clubMember Array - the sorted list will be known as 'sortedclubMember'
       memberSorter ArraySorter = new memberSorter(clubMemberList);
-      ArrayList<clubMember> sortedclubMember = ArraySorter.getSortedclubMemberByID();         
-      //      System.out.println("-----Sorted clubMember by ID: Ascending-----");
-      //      int h = 0;
-      //      for (clubMember clubMember : sortedclubMember) {
-      //        h++;
-      //        System.out.println(h+" "+clubMember);
-      //        
-      //      }       
+      ArrayList<clubMember> sortedclubMemberStart = ArraySorter.getSortedclubMemberByID();     
+      ArrayList<clubMember> sortedclubMember = ArraySorter.getSortedclubMemberByID();
+      // add the array to itself, then add that doubled array to itself again.
+      sortedclubMember.addAll(sortedclubMemberStart);
+      sortedclubMember.addAll(sortedclubMemberStart);
+
+
+      //      System.out.println(sortedclubMember);
+      //            System.out.println("-----Sorted clubMember by ID: Ascending-----");
+      //            int h = 0;
+      //            for (clubMember clubMember : sortedclubMember) {
+      //              h++;
+      //              System.out.println(h+" "+clubMember);              
+      //            }       
 
 
 
       // WE NOW HAVE OUR ARRAYS, HERE WE WILL USE THEM TO SELECT A RANDOM CLUBMEMBER AND THEN ALTERNATE UP AND DOWN THE ID NUMBERS FOR THE FOLLOWING DRAW CLICKS....somehow
 
-      // RANDOM MEMBER FIRST
+      // Select a random member first
       if (Frame1.winner == "No memdraw.csv") {       
 
         // Choose a random member from the sorted array
         Random r = new Random();
-        randomNumber = r.nextInt(lines.size());
+
+        // set the random number to choose only from the last entry of the first array iteration, and the first entry of the third iteration
+        // Note: Meaning the second iteration of the sortedClubMembers array will be where the random number is chosen initially chosen from 
+        int z = lines.size();
+        int y = lines.size();
+        randomNumber  = r.nextInt(z) + y;
+
+        
+        // Select the lucky winner!
         clubMember randomMember = sortedclubMember.get(randomNumber);
 
         String winnerID = Integer.toString(randomMember.getID());
@@ -89,36 +103,38 @@ public class CSVReader {
         // show winner
         Frame1.winner = winnerFirstName+" "+winnerLastName;
         Frame1.winnerNum = winnerID;
-        System.out.println(Frame1.winner +" - "+ Frame1.winnerNum);
+//        System.out.println(Frame1.winner +" - "+ Frame1.winnerNum);
 
         n++;
-        System.out.println("N = "+n);
-        System.out.println(randomNumber);
+//        System.out.println("N = "+n);
+//        System.out.println(randomNumber);
+
 
       } else {
 
-        // FOLLOWING NUMBER CYCLE
+        // now the first member has been chosen cycle up and down members either side of that number
+       // (As club standard is 10 iterations, extra arrays have been added to avoid 'Out Of Bounds' Exceptions)
         if (n % 2 == 0) {
-          randomNumber = new Integer(randomNumber.intValue() - n);
+          randomNumber = new Integer(randomNumber.intValue() + n); // if n is odd +
         } else {
-          randomNumber = new Integer(randomNumber.intValue() + n);
+          randomNumber = new Integer(randomNumber.intValue() - n); // if n is even -
         }
 
-        // Check randomNumber hasn't exceeded the size of our array  ITS ALL FUCKED UP RIGHT HERE
-        if (randomNumber > sortedclubMember.size()-1) {          
-          randomNumber = new Integer(2);          
-        }
-        if (randomNumber == 0) {
-          randomNumber = new Integer(sortedclubMember.size()-1);          
-        }
+        //        // Check randomNumber hasn't exceeded the size of our array (Ditched this attempt in favour of multiple arrays)
+        //        if (randomNumber > sortedclubMember.size()-1) {          
+        //          randomNumber = 0;
+        //          n = 1;
+        //        }
+        //        else if (randomNumber == 0) {
+        //          randomNumber = new Integer(sortedclubMember.size()-1);          
+        //          n = 2;
+        //        }
 
 
         // go ahead and get the next lucky member
         clubMember randomMember = sortedclubMember.get(randomNumber);
 
 
-
-        //int IDint = randomMember.getID();
         String winnerID = Integer.toString(randomMember.getID());
         String winnerFirstName = randomMember.getfirstName(); 
         String winnerLastName = randomMember.getlastName();
@@ -126,12 +142,13 @@ public class CSVReader {
         // show winner
         Frame1.winner = winnerFirstName+" "+winnerLastName;
         Frame1.winnerNum = winnerID;
-        System.out.println(Frame1.winner);
-        System.out.println(Frame1.winnerNum); 
+//        System.out.println(Frame1.winner);
+//        System.out.println(Frame1.winnerNum); 
         n++;
-        System.out.println("N = "+n);
-        System.out.println("randomNumber = "+randomNumber);        
-        //System.out.println("MADE IT" + sortedclubMember.get(randomNumber));
+//        System.out.println("N = " + n);
+//        System.out.println("randomNumber = "+randomNumber);
+//        System.out.println("------------");
+
 
       }
 
