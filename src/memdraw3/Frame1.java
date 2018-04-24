@@ -1,50 +1,58 @@
 package memdraw3;
 
-
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
-import javax.swing.JButton;
-import java.awt.event.ActionListener;
-import java.util.Random;
-import java.awt.event.ActionEvent;
-import javax.swing.JLabel;
 import java.awt.CardLayout;
-import java.awt.Dimension;
-
 import javax.swing.JPanel;
-
-import java.awt.Font;
-import java.awt.Toolkit;
-
-import javax.swing.SwingConstants;
-import java.awt.Color;
 import javax.swing.border.EtchedBorder;
 
 
+import java.awt.GridBagLayout;
+import javax.swing.JButton;
+import java.awt.GridBagConstraints;
+import java.awt.Insets;
+import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.Random;
+import java.awt.Font;
+import javax.swing.JLabel;
 import javax.swing.ImageIcon;
-import javax.swing.UIManager;
 import javax.swing.JSpinner;
+import java.awt.Color;
+import javax.swing.SwingConstants;
+import java.awt.SystemColor;
 
 public class Frame1 {
-  private JFrame frmMembersDraw; 
+  private JFrame frame;
+  
+//Setting private variables to be used for Raffle
+// private JSpinner minSpin;
+// private JSpinner maxSpin; 
+ public int minVar = 1; // this can be accessed everywhere in MyClass
+ private int maxVar = 10; // this can be accessed everywhere in MyClass
+ // Setup Our Randomisation of raffle #
+ int drawWinner;
+ Random rand = new Random();
+ public static String winner = "No memdraw.csv";
+ public static String winnerNum = "No memdraw.csv";
+ 
+//Set our Param variables
+public void func1(int s) {
+  minVar = s;
+}
 
-  // Setting private variables to be used for Raffle
-  private JSpinner minSpin;
-  private JSpinner maxSpin;
+public void func2(int s) {
+  maxVar = s;
+}
 
-  int drawWinner;
-  public int minVar = 1; // this can be accessed everywhere in MyClass
-  private int maxVar = 10; // this can be accessed everywhere in MyClass
-  Random rand = new Random();
-  public static String winner = "No memdraw.csv";
-  public static String winnerNum = "No memdraw.csv";
+//Setting Static Variables to be used for CSV Member Winner
+public static void memDrawWinner(String s) {
+ winner = "changed";
+ winnerNum = "changed";   
+}
 
-  // Setting Static Variables to be used for CSV Member Winner
-  public static void memDrawWinner(String s) {
-    winner = "changed";
-    winnerNum = "changed";   
-  }
 
   /**
    * Launch the application.
@@ -54,13 +62,12 @@ public class Frame1 {
       public void run() {
         try {
           Frame1 window = new Frame1();
-          window.frmMembersDraw.setVisible(true);          
+          window.frame.setVisible(true);
         } catch (Exception e) {
           e.printStackTrace();
         }
       }
     });
-
   }
 
   /**
@@ -69,235 +76,310 @@ public class Frame1 {
   public Frame1() {
     initialize();
   }
-  // Set our Param variables
-  public void func1(int s) {
-    minVar = s;
-
-  }
-  public void func2(int s) {
-    maxVar = s;
-  }  
 
   /**
    * Initialize the contents of the frame.
-   */  
-  private void initialize() {  
-    Dimension screenSize;
-    frmMembersDraw = new JFrame();
-    frmMembersDraw.setTitle("members draw");
-    frmMembersDraw.setExtendedState(JFrame.MAXIMIZED_BOTH); 
-    frmMembersDraw.setBounds(0, 0, Toolkit.getDefaultToolkit().getScreenSize().width, Toolkit.getDefaultToolkit().getScreenSize().height);    
-    frmMembersDraw.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    frmMembersDraw.getContentPane().setLayout(new CardLayout(0, 0));
+   */
+  private void initialize() {
+    frame = new JFrame();    
+    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    frame.getContentPane().setLayout(new CardLayout(0, 0));
+    frame.setBounds(0, 0, Toolkit.getDefaultToolkit().getScreenSize().width, Toolkit.getDefaultToolkit().getScreenSize().height);
+    frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+ 
+    // ******** PANELS ***********
+    // HOME PANEL
+    JPanel Home = new JPanel();
+    Home.setBackground(SystemColor.inactiveCaptionBorder);
+    frame.getContentPane().add(Home, "name_23302077142628");
+    GridBagLayout gbl_Home = new GridBagLayout();
+    gbl_Home.columnWidths = new int[]{194, 0, 395, 0, 227, 0};
+    gbl_Home.rowHeights = new int[]{0, 301, 86, 0};
+    gbl_Home.columnWeights = new double[]{1.0, 1.0, 1.0, 1.0, 1.0, Double.MIN_VALUE};
+    gbl_Home.rowWeights = new double[]{1.0, 1.0, 1.0, Double.MIN_VALUE};
+    Home.setLayout(gbl_Home);
 
-    // SET PANELS    
-    JPanel Home = new JPanel();    
-    frmMembersDraw.getContentPane().add(Home, "name_18476658441745");
-    Home.setBackground(new Color(240, 255, 240));
-    Home.setLayout(null);
+    //RAFFLEPARAM PANEL
+    JPanel RaffleParam = new JPanel();
+    RaffleParam.setBackground(SystemColor.inactiveCaptionBorder);
+    frame.getContentPane().add(RaffleParam, "name_26537752723386");
+    GridBagLayout gbl_RaffleParam = new GridBagLayout();
+    gbl_RaffleParam.columnWidths = new int[]{0, 0, 0, 0, 0, 0};
+    gbl_RaffleParam.rowHeights = new int[]{84, 0, 69, 0, 0, 0};
+    gbl_RaffleParam.columnWeights = new double[]{1.0, 1.0, 1.0, 1.0, 1.0, Double.MIN_VALUE};
+    gbl_RaffleParam.rowWeights = new double[]{0.0, 1.0, 1.0, 1.0, 1.0, Double.MIN_VALUE};
+    RaffleParam.setLayout(gbl_RaffleParam);
 
-
-    JPanel raffleParam = new JPanel();
-    raffleParam.setBackground(new Color(240, 248, 255));
-    frmMembersDraw.getContentPane().add(raffleParam, "name_18529318097321");
-    raffleParam.setLayout(null);     
-    screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-    Home.setBounds(0,0,screenSize.width, screenSize.height);
-
+    // RAFFLEDRAW PANEL
     JPanel raffleDraw = new JPanel();
-    raffleDraw.setBackground(new Color(240, 248, 255));
-    frmMembersDraw.getContentPane().add(raffleDraw, "name_19373899126863");
-    raffleDraw.setLayout(null);
-
+    raffleDraw.setBackground(new Color(240, 255, 240));
+    frame.getContentPane().add(raffleDraw, "name_28297964832862");
+    GridBagLayout gbl_raffleDraw = new GridBagLayout();
+    gbl_raffleDraw.columnWidths = new int[]{51, 1031, -32, 0};
+    gbl_raffleDraw.rowHeights = new int[]{98, 330, 0, 266, 0, 0};
+    gbl_raffleDraw.columnWeights = new double[]{0.0, 1.0, 1.0, Double.MIN_VALUE};
+    gbl_raffleDraw.rowWeights = new double[]{0.0, 1.0, 0.0, 1.0, 1.0, Double.MIN_VALUE};
+    raffleDraw.setLayout(gbl_raffleDraw);
+    
     JPanel membersDraw = new JPanel();
-    membersDraw.setBackground(new Color(255, 250, 205));
-    frmMembersDraw.getContentPane().add(membersDraw, "name_40604808963260");
-    membersDraw.setLayout(null);
+    membersDraw.setBackground(SystemColor.info);
+    frame.getContentPane().add(membersDraw, "name_34030677593319");
+    GridBagLayout gbl_membersDraw = new GridBagLayout();
+    gbl_membersDraw.columnWidths = new int[]{0, 0, 0, 0};
+    gbl_membersDraw.rowHeights = new int[]{318, 230, 0, 0, 0};
+    gbl_membersDraw.columnWeights = new double[]{1.0, 1.0, 1.0, Double.MIN_VALUE};
+    gbl_membersDraw.rowWeights = new double[]{1.0, 1.0, 1.0, 1.0, Double.MIN_VALUE};
+    membersDraw.setLayout(gbl_membersDraw);
+    
+        JLabel lblNewLabel_1 = new JLabel("Minimum:");
+        lblNewLabel_1.setFont(new Font("Tahoma", Font.PLAIN, 24));
+        GridBagConstraints gbc_lblNewLabel_1 = new GridBagConstraints();
+        gbc_lblNewLabel_1.anchor = GridBagConstraints.NORTH;
+        gbc_lblNewLabel_1.insets = new Insets(0, 0, 5, 5);
+        gbc_lblNewLabel_1.gridx = 1;
+        gbc_lblNewLabel_1.gridy = 1;
+        RaffleParam.add(lblNewLabel_1, gbc_lblNewLabel_1);
+    
+    JPanel panel = new JPanel();
+    panel.setBackground(SystemColor.inactiveCaptionBorder);
+    panel.setLayout(null);
+    GridBagConstraints gbc_panel = new GridBagConstraints();
+    gbc_panel.insets = new Insets(0, 0, 5, 5);
+    gbc_panel.fill = GridBagConstraints.BOTH;
+    gbc_panel.gridx = 2;
+    gbc_panel.gridy = 1;
+    RaffleParam.add(panel, gbc_panel);
+    
+    JSpinner minSpin = new JSpinner();
+    panel.add(minSpin);
+    minSpin.setFont(new Font("Tahoma", Font.PLAIN, 42));
+    minSpin.setBounds(0, 0, 120, 58);
+    minSpin.setValue(Integer.valueOf(minVar));
+    
+    JLabel lblMaximum = new JLabel("Maximum:");
+    lblMaximum.setFont(new Font("Tahoma", Font.PLAIN, 24));
+    GridBagConstraints gbc_lblMaximum = new GridBagConstraints();
+    gbc_lblMaximum.anchor = GridBagConstraints.NORTH;
+    gbc_lblMaximum.insets = new Insets(0, 0, 5, 5);
+    gbc_lblMaximum.gridx = 1;
+    gbc_lblMaximum.gridy = 2;
+    RaffleParam.add(lblMaximum, gbc_lblMaximum);
+    
+    JPanel panel_1 = new JPanel();
+    panel_1.setBackground(SystemColor.inactiveCaptionBorder);
+    panel_1.setLayout(null);
+    GridBagConstraints gbc_panel_1 = new GridBagConstraints();
+    gbc_panel_1.insets = new Insets(0, 0, 5, 5);
+    gbc_panel_1.fill = GridBagConstraints.BOTH;
+    gbc_panel_1.gridx = 2;
+    gbc_panel_1.gridy = 2;
+    RaffleParam.add(panel_1, gbc_panel_1);
+    
+    JSpinner maxSpin = new JSpinner();
+    maxSpin.setBounds(0, 0, 120, 58);
+    panel_1.add(maxSpin);
+    maxSpin.setFont(new Font("Tahoma", Font.PLAIN, 42));
+    maxSpin.setValue(Integer.valueOf(maxVar));
+        
+        JButton btnBack = new JButton("Back");
+        btnBack.addActionListener(new ActionListener() {
+          
+          public void actionPerformed(ActionEvent arg0) {
+            RaffleParam.setVisible(false);
+            Home.setVisible(true);
+            
+          }
+        });
+        
+            JButton btnOk = new JButton("Ok!");
+            btnOk.setFont(new Font("Tahoma", Font.PLAIN, 30));
+            btnOk.addActionListener(new ActionListener() {
+              public void actionPerformed(ActionEvent arg0) {        
+                RaffleParam.setVisible(false);
+                Home.setVisible(false);
+                raffleDraw.setVisible(true);
+                func1((Integer) minSpin.getValue());        
+                func2((Integer) maxSpin.getValue());
+                System.out.println("minVar is "+minVar);
+                System.out.println("maxVar is "+maxVar); 
+                drawWinner = rand.nextInt(maxVar + 1 - minVar) + minVar;
+              }
+            });
+            
+            
+            GridBagConstraints gbc_btnOk = new GridBagConstraints();
+            gbc_btnOk.anchor = GridBagConstraints.NORTHWEST;
+            gbc_btnOk.insets = new Insets(0, 0, 5, 5);
+            gbc_btnOk.gridx = 2;
+            gbc_btnOk.gridy = 3;
+            RaffleParam.add(btnOk, gbc_btnOk);
+        btnBack.setFont(new Font("Tahoma", Font.PLAIN, 16));
+        GridBagConstraints gbc_btnBack = new GridBagConstraints();
+        gbc_btnBack.insets = new Insets(0, 0, 0, 5);
+        gbc_btnBack.gridx = 0;
+        gbc_btnBack.gridy = 4;
+        RaffleParam.add(btnBack, gbc_btnBack);
 
-    //HOME PANEL    
-    JButton btnRaffle = new JButton("Set Raffle Paramaters");
-    btnRaffle.setFont(new Font("Tahoma", Font.PLAIN, 20));
-    btnRaffle.addActionListener(new ActionListener() {
-      public void actionPerformed(ActionEvent arg0) {
-        raffleParam.setVisible(true);
-        Home.setVisible(false);
-      }
-    });
-    btnRaffle.setBounds(147, 855, 263, 97);
-    Home.add(btnRaffle);
-
-    JButton btnDrawRaffle = new JButton("Draw Raffle!");
-    btnDrawRaffle.setFont(new Font("Tahoma", Font.PLAIN, 20));
-    btnDrawRaffle.addActionListener(new ActionListener() {
-      public void actionPerformed(ActionEvent arg0) {
-        Home.setVisible(false);
-        raffleDraw.setVisible(true);        
-      }
-    });
-    btnDrawRaffle.setBounds(806, 855, 250, 97);
-    Home.add(btnDrawRaffle);
-
-    JButton btnNewButton = new JButton("Member's Draw");
-    btnNewButton.addActionListener(new ActionListener() {
+    JButton btnMembersDraw = new JButton("Member's Draw");
+    btnMembersDraw.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent arg0) {
         Home.setVisible(false);
         membersDraw.setVisible(true);
 
       }
     });
-    btnNewButton.setFont(new Font("Tahoma", Font.PLAIN, 20));
-    btnNewButton.setBounds(386, 129, 466, 138);
-    Home.add(btnNewButton);
+    btnMembersDraw.setFont(new Font("Tahoma", Font.PLAIN, 24));
+    GridBagConstraints gbc_btnMembersDraw = new GridBagConstraints();
+    gbc_btnMembersDraw.anchor = GridBagConstraints.SOUTH;
+    gbc_btnMembersDraw.insets = new Insets(0, 0, 5, 5);
+    gbc_btnMembersDraw.gridx = 2;
+    gbc_btnMembersDraw.gridy = 0;
+    Home.add(btnMembersDraw, gbc_btnMembersDraw);
+    
+    JButton btnRaffleParam = new JButton("Setup Draw");
+    btnRaffleParam.setFont(new Font("Tahoma", Font.PLAIN, 24));    
+    btnRaffleParam.addActionListener(new ActionListener() {
+      public void actionPerformed(ActionEvent arg0) {
+        RaffleParam.setVisible(true);
+        Home.setVisible(false);
+      }
+    });
+    GridBagConstraints gbc_btnRaffleParam = new GridBagConstraints();
+    gbc_btnRaffleParam.anchor = GridBagConstraints.SOUTHEAST;
+    gbc_btnRaffleParam.insets = new Insets(0, 0, 5, 5);
+    gbc_btnRaffleParam.gridx = 1;
+    gbc_btnRaffleParam.gridy = 1;
+    Home.add(btnRaffleParam, gbc_btnRaffleParam);
+    
+    JButton btnNewButton_1 = new JButton("Draw Raffle");
+    btnNewButton_1.addActionListener(new ActionListener() {
+      public void actionPerformed(ActionEvent arg0) {
+        Home.setVisible(false);
+        raffleDraw.setVisible(true);        
+      }
+    });
+    
+    JLabel lblNewLabel = new JLabel("");
+    lblNewLabel.setIcon(new ImageIcon(Frame1.class.getResource("/memdraw3/icon002.png")));
+    lblNewLabel.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
+    GridBagConstraints gbc_lblNewLabel = new GridBagConstraints();
+    gbc_lblNewLabel.insets = new Insets(0, 0, 5, 5);
+    gbc_lblNewLabel.gridx = 2;
+    gbc_lblNewLabel.gridy = 1;
+    Home.add(lblNewLabel, gbc_lblNewLabel);
+    btnNewButton_1.setFont(new Font("Tahoma", Font.PLAIN, 24));
+    GridBagConstraints gbc_btnNewButton_1 = new GridBagConstraints();
+    gbc_btnNewButton_1.anchor = GridBagConstraints.SOUTHWEST;
+    gbc_btnNewButton_1.insets = new Insets(0, 0, 5, 5);
+    gbc_btnNewButton_1.gridx = 3;
+    gbc_btnNewButton_1.gridy = 1;
+    Home.add(btnNewButton_1, gbc_btnNewButton_1);
+    
+    
+    
+    JLabel lblRaffleNumber = new JLabel("Get Ready!");
+    lblRaffleNumber.setHorizontalAlignment(SwingConstants.CENTER);
+    lblRaffleNumber.setFont(lblRaffleNumber.getFont().deriveFont(180f));
+    lblRaffleNumber.setBorder(null);
+    lblRaffleNumber.setBackground(Color.WHITE);
+    GridBagConstraints gbc_lblRaffleNumber = new GridBagConstraints();
+    gbc_lblRaffleNumber.anchor = GridBagConstraints.NORTH;
+    gbc_lblRaffleNumber.insets = new Insets(0, 0, 5, 5);
+    gbc_lblRaffleNumber.gridx = 1;
+    gbc_lblRaffleNumber.gridy = 1;
+    raffleDraw.add(lblRaffleNumber, gbc_lblRaffleNumber);
+    
+    JButton btnDraw = new JButton("Draw the Raffle!");
+    btnDraw.setFont(new Font("Tahoma", Font.PLAIN, 36));
+    btnDraw.addActionListener(new ActionListener() {
+      public void actionPerformed(ActionEvent arg0) {
+        drawWinner = rand.nextInt(maxVar + 1 - minVar) + minVar;
+        lblRaffleNumber.setText(Integer.toString(drawWinner));
 
-    JLabel lblWTBC = new JLabel("");    
-    lblWTBC.setForeground(Color.WHITE);
-    lblWTBC.setBackground(new Color(240, 255, 240));
-    lblWTBC.setHorizontalAlignment(SwingConstants.CENTER);
-    lblWTBC.setIcon(new ImageIcon(Frame1.class.getResource("/memdraw3/image002.png")));
-    lblWTBC.setBounds(413, 394, 411, 294);
-    lblWTBC.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
-    Home.add(lblWTBC);
+      }
+    });
+    GridBagConstraints gbc_btnDraw = new GridBagConstraints();
+    gbc_btnDraw.anchor = GridBagConstraints.SOUTH;
+    gbc_btnDraw.insets = new Insets(0, 0, 5, 5);
+    gbc_btnDraw.gridx = 1;
+    gbc_btnDraw.gridy = 3;
+    raffleDraw.add(btnDraw, gbc_btnDraw);
+    
+    JButton button = new JButton("Back");
+    button.setFont(new Font("Tahoma", Font.PLAIN, 16));
+    button.addActionListener(new ActionListener() {
+      public void actionPerformed(ActionEvent arg0) {
+        raffleDraw.setVisible(false);
+        Home.setVisible(true);
+        lblRaffleNumber.setText("Get Ready!");
+      }
+    });
+    
+    GridBagConstraints gbc_button = new GridBagConstraints();
+    gbc_button.anchor = GridBagConstraints.WEST;
+    gbc_button.insets = new Insets(0, 0, 0, 5);
+    gbc_button.gridx = 1;
+    gbc_button.gridy = 4;
+    raffleDraw.add(button, gbc_button);
+    
 
-    //MEMBERS DRAW PANEL
+    
     JLabel lblMemNum = new JLabel("Get Ready!");
     lblMemNum.setHorizontalAlignment(SwingConstants.CENTER);
-    lblMemNum.setFont(lblMemNum.getFont().deriveFont(220f));
-//    lblMemNum.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
+    lblMemNum.setFont(lblMemNum.getFont().deriveFont(190f));
     lblMemNum.setBackground(new Color(245, 255, 250));
-    lblMemNum.setBounds(10, 11, 1210, 292);
-    membersDraw.add(lblMemNum);
-
+    GridBagConstraints gbc_lblMemNum = new GridBagConstraints();
+    gbc_lblMemNum.insets = new Insets(0, 0, 5, 5);
+    gbc_lblMemNum.gridx = 1;
+    gbc_lblMemNum.gridy = 0;
+    membersDraw.add(lblMemNum, gbc_lblMemNum);
+    
     JLabel lblMemName = new JLabel("");
     lblMemName.setHorizontalAlignment(SwingConstants.CENTER);
     lblMemName.setFont(new Font("Verdana", Font.BOLD, 76));
-//    lblMemName.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
     lblMemName.setBackground(new Color(245, 255, 250));
-    lblMemName.setBounds(10, 302, 1210, 310);
-    membersDraw.add(lblMemName);
-
-    JButton btnmembersDrawButton = new JButton("Draw the Member's Draw!");
-    btnmembersDrawButton.setFont(new Font("Tahoma", Font.PLAIN, 18));
-    btnmembersDrawButton.addActionListener(new ActionListener() {
-      public void actionPerformed(ActionEvent arg0) {        
+    GridBagConstraints gbc_lblMemName = new GridBagConstraints();
+    gbc_lblMemName.insets = new Insets(0, 0, 5, 5);
+    gbc_lblMemName.gridx = 1;
+    gbc_lblMemName.gridy = 1;
+    membersDraw.add(lblMemName, gbc_lblMemName);
+    
+    JButton btnMemDraw = new JButton("Draw the Member's Draw!");
+    btnMemDraw.addActionListener(new ActionListener() {
+      public void actionPerformed(ActionEvent arg0) {
         CSVReader.main(null);
         lblMemNum.setText(Frame1.winnerNum);
         lblMemName.setText(Frame1.winner);
 
         //        System.out.println("HERE!" + Frame1.winner);
-        //        System.out.println("HERE!" + Frame1.winnerNum);
+        //  
       }
     });
-    btnmembersDrawButton.setBounds(495, 903, 259, 75);
-    membersDraw.add(btnmembersDrawButton);
-
-    JButton button = new JButton("Back");
-    button.addActionListener(new ActionListener() {
+    btnMemDraw.setFont(new Font("Tahoma", Font.PLAIN, 46));
+    GridBagConstraints gbc_btnMemDraw = new GridBagConstraints();
+    gbc_btnMemDraw.insets = new Insets(0, 0, 5, 5);
+    gbc_btnMemDraw.gridx = 1;
+    gbc_btnMemDraw.gridy = 2;
+    membersDraw.add(btnMemDraw, gbc_btnMemDraw);
+    
+    JButton btnBack_1 = new JButton("Back");
+    btnBack_1.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent arg0) {
-        Home.setVisible(true);        
+        Home.setVisible(true);
+        raffleDraw.setVisible(false);
         membersDraw.setVisible(false);
         lblMemNum.setText("Get Ready!");
         lblMemName.setText("");
       }
     });
-    button.setBounds(10, 919, 140, 59);
-    membersDraw.add(button);
+    GridBagConstraints gbc_btnBack_1 = new GridBagConstraints();
+    gbc_btnBack_1.insets = new Insets(0, 0, 0, 5);
+    gbc_btnBack_1.gridx = 1;
+    gbc_btnBack_1.gridy = 3;
+    membersDraw.add(btnBack_1, gbc_btnBack_1);
+    
 
-    JLabel label_1 = new JLabel("");
-    label_1.setIcon(new ImageIcon(Frame1.class.getResource("/memdraw3/image002.png")));
-    label_1.setHorizontalAlignment(SwingConstants.CENTER);
-    label_1.setForeground(Color.BLACK);
-    label_1.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
-    label_1.setBackground(new Color(230, 230, 250));
-    label_1.setBounds(415, 640, 404, 252);
-    membersDraw.add(label_1);
-
-    // PARAMATER PANEL   
-    JLabel lblMin = new JLabel("Minimum:");
-    lblMin.setFont(new Font("Tahoma", Font.PLAIN, 50));
-    lblMin.setBounds(300, 216, 285, 97);
-    raffleParam.add(lblMin);
-
-    JLabel lblMax = new JLabel("Maximum:");
-    lblMax.setFont(new Font("Tahoma", Font.PLAIN, 50));
-    lblMax.setBounds(300, 429, 300, 66);
-    raffleParam.add(lblMax);
-
-    minSpin = new JSpinner();    
-    minSpin.setFont(new Font("Tahoma", Font.PLAIN, 50));    
-    minSpin.setBounds(632, 222, 160, 86);
-    minSpin.setValue(Integer.valueOf(minVar)); // Set the default value.
-    raffleParam.add(minSpin);
-
-    maxSpin = new JSpinner();
-    maxSpin.setFont(new Font("Tahoma", Font.PLAIN, 50));
-    maxSpin.setBounds(632, 423, 160, 80);
-    maxSpin.setValue(Integer.valueOf(maxVar)); // Set the default value.
-    raffleParam.add(maxSpin);
-
-
-    JButton btnOk = new JButton("Ok");    
-    btnOk.setFont(new Font("Tahoma", Font.PLAIN, 36));
-    btnOk.addActionListener(new ActionListener() {
-
-      public void actionPerformed(ActionEvent arg0) {        
-        raffleParam.setVisible(false);
-        Home.setVisible(false);
-        raffleDraw.setVisible(true);
-        func1((Integer) minSpin.getValue());        
-        func2((Integer) maxSpin.getValue());
-        //        System.out.println("minVar is "+minVar);
-        //        System.out.println("maxVar is "+maxVar); 
-        drawWinner = rand.nextInt(maxVar + 1 - minVar) + minVar;
-      }
-    });
-    btnOk.setBounds(558, 678, 176, 66);
-    raffleParam.add(btnOk);
-
-
-    // DRAW PANEL    
-    JLabel lblRaffleNumber = new JLabel("Get Ready!");
-    lblRaffleNumber.setBackground(UIManager.getColor("Button.disabledShadow"));
-    lblRaffleNumber.setHorizontalAlignment(SwingConstants.CENTER);
-    lblRaffleNumber.setFont(lblRaffleNumber.getFont().deriveFont(215f));
-    lblRaffleNumber.setBounds(10, 11, 1205, 350); 
-    lblRaffleNumber.setBorder(null);
-    raffleDraw.add(lblRaffleNumber);
-
-    JButton btnDraw = new JButton("Draw the Raffle!");
-    btnDraw.setFont(new Font("Tahoma", Font.PLAIN, 21));
-    btnDraw.addActionListener(new ActionListener() {
-      public void actionPerformed(ActionEvent arg0) {
-        drawWinner = rand.nextInt(maxVar + 1 - minVar) + minVar;
-        lblRaffleNumber.setText(Integer.toString(drawWinner));
-//        System.out.println("minVar is "+minVar);
-//        System.out.println("maxVar is "+maxVar);
-      }
-    });
-    btnDraw.setBounds(506, 829, 231, 102);
-    raffleDraw.add(btnDraw);
-
-    JButton Back = new JButton("Back");
-    Back.addActionListener(new ActionListener() {
-      public void actionPerformed(ActionEvent arg0) {
-        Home.setVisible(true);                
-        raffleDraw.setVisible(false);
-        lblRaffleNumber.setText("Get Ready!");
-      }
-    });
-    Back.setBounds(10, 919, 140, 59);
-    raffleDraw.add(Back);
-
-    JLabel label = new JLabel("");
-    label.setIcon(new ImageIcon(Frame1.class.getResource("/memdraw3/image002.png")));
-    label.setHorizontalAlignment(SwingConstants.CENTER);
-    label.setForeground(Color.BLACK);
-    label.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
-    label.setBackground(new Color(230, 230, 250));
-    label.setBounds(421, 480, 404, 288);
-    raffleDraw.add(label);
-
-
+    
   }
+
 }
-
-
