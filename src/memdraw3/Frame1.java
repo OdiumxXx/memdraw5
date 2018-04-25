@@ -115,7 +115,7 @@ public static void memDrawWinner(String s) {
     raffleDraw.setBackground(new Color(240, 255, 240));
     frame.getContentPane().add(raffleDraw, "name_28297964832862");
     GridBagLayout gbl_raffleDraw = new GridBagLayout();
-    gbl_raffleDraw.columnWidths = new int[]{51, 1031, -32, 0};
+    gbl_raffleDraw.columnWidths = new int[]{204, 1363, -32, 0};
     gbl_raffleDraw.rowHeights = new int[]{98, 330, 0, 266, 0, 0};
     gbl_raffleDraw.columnWeights = new double[]{0.0, 1.0, 1.0, Double.MIN_VALUE};
     gbl_raffleDraw.rowWeights = new double[]{0.0, 1.0, 0.0, 1.0, 1.0, Double.MIN_VALUE};
@@ -236,7 +236,7 @@ public static void memDrawWinner(String s) {
     gbc_btnMembersDraw.gridy = 0;
     Home.add(btnMembersDraw, gbc_btnMembersDraw);
     
-    JButton btnRaffleParam = new JButton("Setup Draw");
+    JButton btnRaffleParam = new JButton("Setup Raffle");
     btnRaffleParam.setFont(new Font("Tahoma", Font.PLAIN, 24));    
     btnRaffleParam.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent arg0) {
@@ -279,8 +279,7 @@ public static void memDrawWinner(String s) {
     
     JLabel lblRaffleNumber = new JLabel("Get Ready!");
     lblRaffleNumber.setHorizontalAlignment(SwingConstants.CENTER);
-    lblRaffleNumber.setFont(lblRaffleNumber.getFont().deriveFont(180f));
-    lblRaffleNumber.setBorder(null);
+    lblRaffleNumber.setFont(lblRaffleNumber.getFont().deriveFont(190f));
     lblRaffleNumber.setBackground(Color.WHITE);
     GridBagConstraints gbc_lblRaffleNumber = new GridBagConstraints();
     gbc_lblRaffleNumber.anchor = GridBagConstraints.NORTH;
@@ -316,7 +315,6 @@ public static void memDrawWinner(String s) {
     });
     
     GridBagConstraints gbc_button = new GridBagConstraints();
-    gbc_button.anchor = GridBagConstraints.WEST;
     gbc_button.insets = new Insets(0, 0, 0, 5);
     gbc_button.gridx = 1;
     gbc_button.gridy = 4;

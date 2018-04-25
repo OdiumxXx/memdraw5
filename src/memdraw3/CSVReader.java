@@ -48,11 +48,13 @@ public class CSVReader {
       // add the strings from the ArrayList<String> Lines to the ArrayList<clubMember> clubMemberList in the int, string, string format.
       for (int i=0; i<lines.size(); i++) {
         String currentLine = lines.get(i);
+        System.out.println(lines.get(i));
         String[] currentMember = currentLine.split(cvsSplitBy);
 
+        int ID = Integer.parseInt(currentMember[0]);
         String firstName = currentMember[5];
         String lastName = currentMember[4];
-        int ID = Integer.parseInt(currentMember[0]);
+        
 
         clubMember newClubMemberForArray = new clubMember(ID, lastName, firstName);
         clubMemberList.add(newClubMemberForArray);
