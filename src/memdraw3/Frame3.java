@@ -62,6 +62,7 @@ public class Frame3 {
      btnRaffle.addActionListener(new ActionListener() {
        public void actionPerformed(ActionEvent arg0) {
         panel.setVisible(true);
+        
        }
      });
      

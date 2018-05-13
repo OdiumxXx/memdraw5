@@ -6,15 +6,19 @@ import javax.swing.JFrame;
 import java.awt.CardLayout;
 import javax.swing.JPanel;
 import javax.swing.border.EtchedBorder;
-
+import javax.swing.filechooser.FileFilter;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 import java.awt.GridBagLayout;
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
+
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.util.Random;
 import java.awt.Font;
 import javax.swing.JLabel;
@@ -26,32 +30,35 @@ import java.awt.SystemColor;
 
 public class Frame1 {
   private JFrame frame;
-  
-//Setting private variables to be used for Raffle
-// private JSpinner minSpin;
-// private JSpinner maxSpin; 
- public int minVar = 1; // this can be accessed everywhere in MyClass
- private int maxVar = 10; // this can be accessed everywhere in MyClass
- // Setup Our Randomisation of raffle #
- int drawWinner;
- Random rand = new Random();
- public static String winner = "No memdraw.csv";
- public static String winnerNum = "No memdraw.csv";
- 
-//Set our Param variables
-public void func1(int s) {
-  minVar = s;
-}
 
-public void func2(int s) {
-  maxVar = s;
-}
+  //Setting private variables to be used for Raffle
+  // private JSpinner minSpin;
+  // private JSpinner maxSpin; 
+  public int minVar = 1; // this can be accessed everywhere in MyClass
+  private int maxVar = 10; // this can be accessed everywhere in MyClass
+  // Setup Our Randomisation of raffle #
+  int drawWinner;
+  Random rand = new Random();
+  public static String winner = "No memdraw.csv";
+  public static String winnerNum = "No memdraw.csv";
+  public static String filePath;
+  public static JLabel lblMemNum = new JLabel("Get Ready!");
 
-//Setting Static Variables to be used for CSV Member Winner
-public static void memDrawWinner(String s) {
- winner = "changed";
- winnerNum = "changed";   
-}
+
+  //Set our Param variables
+  public void func1(int s) {
+    minVar = s;
+  }
+
+  public void func2(int s) {
+    maxVar = s;
+  }
+
+  //Setting Static Variables to be used for CSV Member Winner
+  public static void memDrawWinner(String s) {
+    winner = "changed";
+    winnerNum = "changed";   
+  }
 
 
   /**
@@ -86,7 +93,7 @@ public static void memDrawWinner(String s) {
     frame.getContentPane().setLayout(new CardLayout(0, 0));
     frame.setBounds(0, 0, Toolkit.getDefaultToolkit().getScreenSize().width, Toolkit.getDefaultToolkit().getScreenSize().height);
     frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
- 
+
     // ******** PANELS ***********
     // HOME PANEL
     JPanel Home = new JPanel();
@@ -120,7 +127,7 @@ public static void memDrawWinner(String s) {
     gbl_raffleDraw.columnWeights = new double[]{0.0, 1.0, 1.0, Double.MIN_VALUE};
     gbl_raffleDraw.rowWeights = new double[]{0.0, 1.0, 0.0, 1.0, 1.0, Double.MIN_VALUE};
     raffleDraw.setLayout(gbl_raffleDraw);
-    
+
     JPanel membersDraw = new JPanel();
     membersDraw.setBackground(SystemColor.info);
     frame.getContentPane().add(membersDraw, "name_34030677593319");
@@ -130,16 +137,16 @@ public static void memDrawWinner(String s) {
     gbl_membersDraw.columnWeights = new double[]{1.0, 1.0, 1.0, Double.MIN_VALUE};
     gbl_membersDraw.rowWeights = new double[]{1.0, 1.0, 1.0, 1.0, Double.MIN_VALUE};
     membersDraw.setLayout(gbl_membersDraw);
-    
-        JLabel lblNewLabel_1 = new JLabel("Minimum:");
-        lblNewLabel_1.setFont(new Font("Tahoma", Font.PLAIN, 24));
-        GridBagConstraints gbc_lblNewLabel_1 = new GridBagConstraints();
-        gbc_lblNewLabel_1.anchor = GridBagConstraints.NORTH;
-        gbc_lblNewLabel_1.insets = new Insets(0, 0, 5, 5);
-        gbc_lblNewLabel_1.gridx = 1;
-        gbc_lblNewLabel_1.gridy = 1;
-        RaffleParam.add(lblNewLabel_1, gbc_lblNewLabel_1);
-    
+
+    JLabel lblNewLabel_1 = new JLabel("Minimum:");
+    lblNewLabel_1.setFont(new Font("Tahoma", Font.PLAIN, 24));
+    GridBagConstraints gbc_lblNewLabel_1 = new GridBagConstraints();
+    gbc_lblNewLabel_1.anchor = GridBagConstraints.NORTHEAST;
+    gbc_lblNewLabel_1.insets = new Insets(160, 0, 5, 5);
+    gbc_lblNewLabel_1.gridx = 1;
+    gbc_lblNewLabel_1.gridy = 1;
+    RaffleParam.add(lblNewLabel_1, gbc_lblNewLabel_1);
+
     JPanel panel = new JPanel();
     panel.setBackground(SystemColor.inactiveCaptionBorder);
     panel.setLayout(null);
@@ -149,22 +156,22 @@ public static void memDrawWinner(String s) {
     gbc_panel.gridx = 2;
     gbc_panel.gridy = 1;
     RaffleParam.add(panel, gbc_panel);
-    
+
     JSpinner minSpin = new JSpinner();
     panel.add(minSpin);
     minSpin.setFont(new Font("Tahoma", Font.PLAIN, 42));
-    minSpin.setBounds(0, 0, 120, 58);
+    minSpin.setBounds(50, 120, 180, 100);
     minSpin.setValue(Integer.valueOf(minVar));
-    
+
     JLabel lblMaximum = new JLabel("Maximum:");
     lblMaximum.setFont(new Font("Tahoma", Font.PLAIN, 24));
     GridBagConstraints gbc_lblMaximum = new GridBagConstraints();
-    gbc_lblMaximum.anchor = GridBagConstraints.NORTH;
-    gbc_lblMaximum.insets = new Insets(0, 0, 5, 5);
+    gbc_lblMaximum.anchor = GridBagConstraints.NORTHEAST;
+    gbc_lblMaximum.insets = new Insets(120, 0, 5, 0);
     gbc_lblMaximum.gridx = 1;
     gbc_lblMaximum.gridy = 2;
     RaffleParam.add(lblMaximum, gbc_lblMaximum);
-    
+
     JPanel panel_1 = new JPanel();
     panel_1.setBackground(SystemColor.inactiveCaptionBorder);
     panel_1.setLayout(null);
@@ -174,120 +181,131 @@ public static void memDrawWinner(String s) {
     gbc_panel_1.gridx = 2;
     gbc_panel_1.gridy = 2;
     RaffleParam.add(panel_1, gbc_panel_1);
-    
+
     JSpinner maxSpin = new JSpinner();
-    maxSpin.setBounds(0, 0, 120, 58);
+    maxSpin.setBounds(50, 80, 180, 100);
     panel_1.add(maxSpin);
     maxSpin.setFont(new Font("Tahoma", Font.PLAIN, 42));
     maxSpin.setValue(Integer.valueOf(maxVar));
-        
-        JButton btnBack = new JButton("Back");
-        btnBack.addActionListener(new ActionListener() {
-          
+
+    JButton btnBack = new JButton("Back");
+    btnBack.addActionListener(new ActionListener() {
+
+      public void actionPerformed(ActionEvent arg0) {
+        RaffleParam.setVisible(false);
+        Home.setVisible(true);
+
+      }
+    });
+
+    JButton btnOk = new JButton("Ok");
+    btnOk.setFont(new Font("Tahoma", Font.PLAIN, 36));
+    btnOk.addActionListener(new ActionListener() {
+      public void actionPerformed(ActionEvent arg0) {        
+        RaffleParam.setVisible(false);
+        Home.setVisible(false);
+        raffleDraw.setVisible(true);
+        func1((Integer) minSpin.getValue());        
+        func2((Integer) maxSpin.getValue());
+        System.out.println("minVar is "+minVar);
+        System.out.println("maxVar is "+maxVar); 
+        drawWinner = rand.nextInt(maxVar + 1 - minVar) + minVar;
+      }
+    });
+
+
+    GridBagConstraints gbc_btnOk = new GridBagConstraints();
+    gbc_btnOk.anchor = GridBagConstraints.NORTHWEST;
+    gbc_btnOk.insets = new Insets(25, 100, 5, 5);
+    gbc_btnOk.gridx = 2;
+    gbc_btnOk.gridy = 3;
+    RaffleParam.add(btnOk, gbc_btnOk);
+    btnBack.setFont(new Font("Tahoma", Font.PLAIN, 16));
+    GridBagConstraints gbc_btnBack = new GridBagConstraints();
+    gbc_btnBack.insets = new Insets(0, 0, 0, 5);
+    gbc_btnBack.gridx = 0;
+    gbc_btnBack.gridy = 4;
+    RaffleParam.add(btnBack, gbc_btnBack);
+    
+        //setup draw button
+        JButton setupDraw = new JButton("Member's Draw");
+        setupDraw.addActionListener(new ActionListener() {
           public void actionPerformed(ActionEvent arg0) {
-            RaffleParam.setVisible(false);
-            Home.setVisible(true);
-            
+
+            JFileChooser fileChooser = new JFileChooser();
+            FileFilter filter = new FileNameExtensionFilter("CSV files", new String[] {"csv"});
+            fileChooser.setFileFilter(filter);
+            File selectedFile = null;
+            fileChooser.setCurrentDirectory(new File(System.getProperty("user.dir")));
+            int result = fileChooser.showOpenDialog(setupDraw);
+            if (result == JFileChooser.APPROVE_OPTION) {
+              selectedFile = fileChooser.getSelectedFile();
+              filePath = selectedFile.getAbsolutePath().toString();
+              System.out.println("Selected file: " + selectedFile.getAbsolutePath());
+              Home.setVisible(false);
+              membersDraw.setVisible(true);
+            } 
+          }
+        });        
+        setupDraw.setFont(new Font("Tahoma", Font.PLAIN, 36));
+        GridBagConstraints gbc_setupDraw = new GridBagConstraints();
+        gbc_setupDraw.anchor = GridBagConstraints.SOUTH;
+        gbc_setupDraw.insets = new Insets(100, 0, 5, 5);
+        gbc_setupDraw.gridx = 2;
+        gbc_setupDraw.gridy = 0;
+        Home.add(setupDraw, gbc_setupDraw);
+
+    JLabel lblLogo = new JLabel("");
+    lblLogo.setIcon(new ImageIcon(Frame1.class.getResource("/memdraw3/icon002.png")));
+    lblLogo.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
+    GridBagConstraints gbc_lblLogo = new GridBagConstraints();
+    gbc_lblLogo.insets = new Insets(0, 0, 5, 5);
+    gbc_lblLogo.gridx = 2;
+    gbc_lblLogo.gridy = 1;
+    Home.add(lblLogo, gbc_lblLogo);
+    
+        JButton btnRaffleParam = new JButton("Raffle");
+        btnRaffleParam.setFont(new Font("Tahoma", Font.PLAIN, 36));    
+        btnRaffleParam.addActionListener(new ActionListener() {
+          public void actionPerformed(ActionEvent arg0) {
+            RaffleParam.setVisible(true);
+            Home.setVisible(false);
           }
         });
         
-            JButton btnOk = new JButton("Ok!");
-            btnOk.setFont(new Font("Tahoma", Font.PLAIN, 30));
-            btnOk.addActionListener(new ActionListener() {
-              public void actionPerformed(ActionEvent arg0) {        
-                RaffleParam.setVisible(false);
-                Home.setVisible(false);
-                raffleDraw.setVisible(true);
-                func1((Integer) minSpin.getValue());        
-                func2((Integer) maxSpin.getValue());
-                System.out.println("minVar is "+minVar);
-                System.out.println("maxVar is "+maxVar); 
-                drawWinner = rand.nextInt(maxVar + 1 - minVar) + minVar;
+            // setup raffle button
+            GridBagConstraints gbc_btnRaffleParam = new GridBagConstraints();
+            gbc_btnRaffleParam.anchor = GridBagConstraints.NORTH;
+            gbc_btnRaffleParam.insets = new Insets(0, 0, 100, 5);
+            gbc_btnRaffleParam.gridx = 2;
+            gbc_btnRaffleParam.gridy = 2;
+            Home.add(btnRaffleParam, gbc_btnRaffleParam);
+            
+            JButton btnClose = new JButton("Close");
+            btnClose.addActionListener(new ActionListener() {
+              public void actionPerformed(ActionEvent arg0) {
+                System.exit(0);
               }
             });
-            
-            
-            GridBagConstraints gbc_btnOk = new GridBagConstraints();
-            gbc_btnOk.anchor = GridBagConstraints.NORTHWEST;
-            gbc_btnOk.insets = new Insets(0, 0, 5, 5);
-            gbc_btnOk.gridx = 2;
-            gbc_btnOk.gridy = 3;
-            RaffleParam.add(btnOk, gbc_btnOk);
-        btnBack.setFont(new Font("Tahoma", Font.PLAIN, 16));
-        GridBagConstraints gbc_btnBack = new GridBagConstraints();
-        gbc_btnBack.insets = new Insets(0, 0, 0, 5);
-        gbc_btnBack.gridx = 0;
-        gbc_btnBack.gridy = 4;
-        RaffleParam.add(btnBack, gbc_btnBack);
+            btnClose.setFont(new Font("Tahoma", Font.PLAIN, 24));
+            GridBagConstraints gbc_btnClose = new GridBagConstraints();
+            gbc_btnClose.gridx = 4;
+            gbc_btnClose.gridy = 2;
+            Home.add(btnClose, gbc_btnClose);
 
-    JButton btnMembersDraw = new JButton("Member's Draw");
-    btnMembersDraw.addActionListener(new ActionListener() {
-      public void actionPerformed(ActionEvent arg0) {
-        Home.setVisible(false);
-        membersDraw.setVisible(true);
 
-      }
-    });
-    btnMembersDraw.setFont(new Font("Tahoma", Font.PLAIN, 24));
-    GridBagConstraints gbc_btnMembersDraw = new GridBagConstraints();
-    gbc_btnMembersDraw.anchor = GridBagConstraints.SOUTH;
-    gbc_btnMembersDraw.insets = new Insets(0, 0, 5, 5);
-    gbc_btnMembersDraw.gridx = 2;
-    gbc_btnMembersDraw.gridy = 0;
-    Home.add(btnMembersDraw, gbc_btnMembersDraw);
-    
-    JButton btnRaffleParam = new JButton("Setup Raffle");
-    btnRaffleParam.setFont(new Font("Tahoma", Font.PLAIN, 24));    
-    btnRaffleParam.addActionListener(new ActionListener() {
-      public void actionPerformed(ActionEvent arg0) {
-        RaffleParam.setVisible(true);
-        Home.setVisible(false);
-      }
-    });
-    GridBagConstraints gbc_btnRaffleParam = new GridBagConstraints();
-    gbc_btnRaffleParam.anchor = GridBagConstraints.SOUTHEAST;
-    gbc_btnRaffleParam.insets = new Insets(0, 0, 5, 5);
-    gbc_btnRaffleParam.gridx = 1;
-    gbc_btnRaffleParam.gridy = 1;
-    Home.add(btnRaffleParam, gbc_btnRaffleParam);
-    
-    JButton btnNewButton_1 = new JButton("Draw Raffle");
-    btnNewButton_1.addActionListener(new ActionListener() {
-      public void actionPerformed(ActionEvent arg0) {
-        Home.setVisible(false);
-        raffleDraw.setVisible(true);        
-      }
-    });
-    
-    JLabel lblNewLabel = new JLabel("");
-    lblNewLabel.setIcon(new ImageIcon(Frame1.class.getResource("/memdraw3/icon002.png")));
-    lblNewLabel.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
-    GridBagConstraints gbc_lblNewLabel = new GridBagConstraints();
-    gbc_lblNewLabel.insets = new Insets(0, 0, 5, 5);
-    gbc_lblNewLabel.gridx = 2;
-    gbc_lblNewLabel.gridy = 1;
-    Home.add(lblNewLabel, gbc_lblNewLabel);
-    btnNewButton_1.setFont(new Font("Tahoma", Font.PLAIN, 24));
-    GridBagConstraints gbc_btnNewButton_1 = new GridBagConstraints();
-    gbc_btnNewButton_1.anchor = GridBagConstraints.SOUTHWEST;
-    gbc_btnNewButton_1.insets = new Insets(0, 0, 5, 5);
-    gbc_btnNewButton_1.gridx = 3;
-    gbc_btnNewButton_1.gridy = 1;
-    Home.add(btnNewButton_1, gbc_btnNewButton_1);
-    
-    
-    
+
     JLabel lblRaffleNumber = new JLabel("Get Ready!");
     lblRaffleNumber.setHorizontalAlignment(SwingConstants.CENTER);
     lblRaffleNumber.setFont(lblRaffleNumber.getFont().deriveFont(190f));
     lblRaffleNumber.setBackground(Color.WHITE);
     GridBagConstraints gbc_lblRaffleNumber = new GridBagConstraints();
     gbc_lblRaffleNumber.anchor = GridBagConstraints.NORTH;
-    gbc_lblRaffleNumber.insets = new Insets(0, 0, 5, 5);
+    gbc_lblRaffleNumber.insets = new Insets(0, 0, 5, 100);
     gbc_lblRaffleNumber.gridx = 1;
     gbc_lblRaffleNumber.gridy = 1;
     raffleDraw.add(lblRaffleNumber, gbc_lblRaffleNumber);
-    
+
     JButton btnDraw = new JButton("Draw the Raffle!");
     btnDraw.setFont(new Font("Tahoma", Font.PLAIN, 36));
     btnDraw.addActionListener(new ActionListener() {
@@ -297,13 +315,21 @@ public static void memDrawWinner(String s) {
 
       }
     });
+    
+    JLabel label = new JLabel("");
+    label.setIcon(new ImageIcon(Frame1.class.getResource("/memdraw3/icon002.png")));
+    label.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
+    GridBagConstraints gbc_label = new GridBagConstraints();
+    gbc_label.insets = new Insets(0, 0, 5, 100);
+    gbc_label.gridx = 1;
+    gbc_label.gridy = 2;
+    raffleDraw.add(label, gbc_label);
     GridBagConstraints gbc_btnDraw = new GridBagConstraints();
-    gbc_btnDraw.anchor = GridBagConstraints.SOUTH;
-    gbc_btnDraw.insets = new Insets(0, 0, 5, 5);
+    gbc_btnDraw.insets = new Insets(0, 0, 5, 100);
     gbc_btnDraw.gridx = 1;
     gbc_btnDraw.gridy = 3;
     raffleDraw.add(btnDraw, gbc_btnDraw);
-    
+
     JButton button = new JButton("Back");
     button.setFont(new Font("Tahoma", Font.PLAIN, 16));
     button.addActionListener(new ActionListener() {
@@ -313,35 +339,34 @@ public static void memDrawWinner(String s) {
         lblRaffleNumber.setText("Get Ready!");
       }
     });
-    
+
     GridBagConstraints gbc_button = new GridBagConstraints();
-    gbc_button.insets = new Insets(0, 0, 0, 5);
+    gbc_button.insets = new Insets(0, 0, 50, 100);
     gbc_button.gridx = 1;
     gbc_button.gridy = 4;
     raffleDraw.add(button, gbc_button);
-    
+
+
 
     
-    JLabel lblMemNum = new JLabel("Get Ready!");
     lblMemNum.setHorizontalAlignment(SwingConstants.CENTER);
     lblMemNum.setFont(lblMemNum.getFont().deriveFont(190f));
     lblMemNum.setBackground(new Color(245, 255, 250));
     GridBagConstraints gbc_lblMemNum = new GridBagConstraints();
-    gbc_lblMemNum.insets = new Insets(0, 0, 5, 5);
     gbc_lblMemNum.gridx = 1;
     gbc_lblMemNum.gridy = 0;
     membersDraw.add(lblMemNum, gbc_lblMemNum);
-    
+
     JLabel lblMemName = new JLabel("");
     lblMemName.setHorizontalAlignment(SwingConstants.CENTER);
-    lblMemName.setFont(new Font("Verdana", Font.BOLD, 76));
+    lblMemName.setFont(new Font("Tahoma", Font.BOLD, 76));
     lblMemName.setBackground(new Color(245, 255, 250));
     GridBagConstraints gbc_lblMemName = new GridBagConstraints();
-    gbc_lblMemName.insets = new Insets(0, 0, 5, 5);
+    gbc_lblMemName.insets = new Insets(0, 0, 100, 0);
     gbc_lblMemName.gridx = 1;
     gbc_lblMemName.gridy = 1;
     membersDraw.add(lblMemName, gbc_lblMemName);
-    
+
     JButton btnMemDraw = new JButton("Draw the Member's Draw!");
     btnMemDraw.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent arg0) {
@@ -359,8 +384,9 @@ public static void memDrawWinner(String s) {
     gbc_btnMemDraw.gridx = 1;
     gbc_btnMemDraw.gridy = 2;
     membersDraw.add(btnMemDraw, gbc_btnMemDraw);
-    
+
     JButton btnBack_1 = new JButton("Back");
+    btnBack_1.setFont(new Font("Tahoma", Font.PLAIN, 16));
     btnBack_1.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent arg0) {
         Home.setVisible(true);
@@ -375,9 +401,9 @@ public static void memDrawWinner(String s) {
     gbc_btnBack_1.gridx = 1;
     gbc_btnBack_1.gridy = 3;
     membersDraw.add(btnBack_1, gbc_btnBack_1);
-    
 
-    
+
+
   }
 
 }

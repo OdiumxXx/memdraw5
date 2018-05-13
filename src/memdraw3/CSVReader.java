@@ -20,13 +20,18 @@ public class CSVReader {
   static Integer randomNumber;
   static int n = 0;
 
+
+
   public static void main(String[] args) {
 
-    String csvFile = "memdraw.csv";
     String cvsSplitBy = ",";    
-
-    try (BufferedReader br = new BufferedReader(new FileReader(csvFile))) {
-
+    
+    if (Frame1.filePath == null) {
+      System.out.println("Load Member's Databse First!");
+      Frame1.lblMemNum.setText("Setup Draw First!");
+    }
+    
+    try (BufferedReader br = new BufferedReader(new FileReader(Frame1.filePath))) {
 
       List<String> lines = new ArrayList<String>();
       String line = br.readLine();
@@ -54,7 +59,7 @@ public class CSVReader {
         int ID = Integer.parseInt(currentMember[0]);
         String firstName = currentMember[5];
         String lastName = currentMember[4];
-        
+
 
         clubMember newClubMemberForArray = new clubMember(ID, lastName, firstName);
         clubMemberList.add(newClubMemberForArray);
@@ -94,7 +99,7 @@ public class CSVReader {
         int y = lines.size();
         randomNumber  = r.nextInt(z) + y;
 
-        
+
         // Select the lucky winner!
         clubMember randomMember = sortedclubMember.get(randomNumber);
 
@@ -105,33 +110,21 @@ public class CSVReader {
         // show winner
         Frame1.winner = winnerFirstName+" "+winnerLastName;
         Frame1.winnerNum = winnerID;
-//        System.out.println(Frame1.winner +" - "+ Frame1.winnerNum);
-
+        //        System.out.println(Frame1.winner +" - "+ Frame1.winnerNum);
         n++;
-//        System.out.println("N = "+n);
-//        System.out.println(randomNumber);
+        //        System.out.println("N = "+n);
+        //        System.out.println(randomNumber);
 
 
       } else {
 
         // now the first member has been chosen cycle up and down members either side of that number
-       // (As club standard is 10 iterations, extra arrays have been added to avoid 'Out Of Bounds' Exceptions)
+        // (As club standard is 10 iterations, extra arrays have been added to avoid 'Out Of Bounds' Exceptions)
         if (n % 2 == 0) {
           randomNumber = new Integer(randomNumber.intValue() + n); // if n is odd +
         } else {
           randomNumber = new Integer(randomNumber.intValue() - n); // if n is even -
         }
-
-        //        // Check randomNumber hasn't exceeded the size of our array (Ditched this attempt in favour of multiple arrays)
-        //        if (randomNumber > sortedclubMember.size()-1) {          
-        //          randomNumber = 0;
-        //          n = 1;
-        //        }
-        //        else if (randomNumber == 0) {
-        //          randomNumber = new Integer(sortedclubMember.size()-1);          
-        //          n = 2;
-        //        }
-
 
         // go ahead and get the next lucky member
         clubMember randomMember = sortedclubMember.get(randomNumber);
@@ -144,12 +137,12 @@ public class CSVReader {
         // show winner
         Frame1.winner = winnerFirstName+" "+winnerLastName;
         Frame1.winnerNum = winnerID;
-//        System.out.println(Frame1.winner);
-//        System.out.println(Frame1.winnerNum); 
+        //        System.out.println(Frame1.winner);
+        //        System.out.println(Frame1.winnerNum); 
         n++;
-//        System.out.println("N = " + n);
-//        System.out.println("randomNumber = "+randomNumber);
-//        System.out.println("------------");
+        //        System.out.println("N = " + n);
+        //        System.out.println("randomNumber = "+randomNumber);
+        //        System.out.println("------------");
 
 
       }
